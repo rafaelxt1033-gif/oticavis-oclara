@@ -177,13 +177,14 @@
         </div>
     </footer>
 
-    <script>
-       // --- CREDENCIAIS DE SEGURANÇA DO SUPABASE ---
+   <script>
+        // --- CREDENCIAIS DE SEGURANÇA DO SUPABASE ---
         const SUPABASE_URL = "https://xrsosmppvrbinnfobwfk.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_UK96KzeM-D_k4d_CuiSiEg_p02l3lTh"; 
 
-        // Inicializa o cliente Supabase de forma segura
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Inicialização corrigida para uso via CDN (Sem travar o navegador)
+        const supabaseClient = supabase.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         const WHATSAPP_LINK_CENTRAL = "https://wa.me/5584987078688?text=";
 
         function abrirAba(evt, nomeAba) {
@@ -196,20 +197,31 @@
             evt.currentTarget.className += " active";
         }
 
-        // Função que grava os dados com segurança no Supabase e depois abre o WhatsApp
+        // Função corrigida com proteção: se o banco falhar ou demorar, o WhatsApp abre do mesmo jeito
         async function registrarEEnviar(tipo, mensagemFinal) {
+            // Cria um timer para garantir que o cliente vá para o WhatsApp mesmo se a internet oscilar
+            const fallbackTimeout = setTimeout(() => {
+                redirecionarWhatsApp(mensagemFinal);
+            }, 1000);
+
             try {
-                // Grava a ação do usuário de forma silenciosa no banco de dados
-                await supabase
+                // Tenta gravar os dados no Supabase de forma assíncrona
+                await supabaseClient
                     .from('leads_otica')
                     .insert([{ tipo_solicitacao: tipo, mensagem: mensagemFinal }]);
+                
+                clearTimeout(fallbackTimeout);
+                redirecionarWhatsApp(mensagemFinal);
             } catch (error) {
-                console.error("Erro de log seguro:", error);
-            } finally {
-                // Independente de instabilidade de internet, o cliente sempre é direcionado ao WhatsApp
-                const textoFormatado = encodeURIComponent(`Olá Ótica Visão Clara! Usei o assistente do site: ${mensagemFinal}`);
-                window.open(WHATSAPP_LINK_CENTRAL + textoFormatado, '_blank');
+                console.error("Erro ao registrar no banco:", error);
+                clearTimeout(fallbackTimeout);
+                redirecionarWhatsApp(mensagemFinal);
             }
+        }
+
+        function redirecionarWhatsApp(mensagem) {
+            const textoFormatado = encodeURIComponent(`Olá Ótica Visão Clara! Usei o assistente do site: ${mensagem}`);
+            window.open(WHATSAPP_LINK_CENTRAL + textoFormatado, '_blank');
         }
     </script>
 </body>
