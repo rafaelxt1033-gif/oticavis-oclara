@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ótica Visão Clara | O Melhor Preço do RN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Script Oficial do Supabase via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg-site: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --azul-profundo: #091524; 
+            --azul-claro: #1A365D;
+            --dourado: #C5A059; 
+            --whatsapp: #25D366;
+            --texto-escuro: #1E293B;
+            --texto-suave: #64748B;
+            --borda: #E2E8F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--bg-site);
+            color: var(--texto-escuro);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 800; color: var(--azul-profundo); }
+        a { text-decoration: none; color: inherit; }
+        .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--borda); padding: 20px 0;
+        }
+        header .wrap { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.2rem; font-weight: 800; letter-spacing: 1px; }
+        .logo span { color: var(--dourado); }
+
+        /* HERO */
+        .hero { padding: 180px 0 90px; background: linear-gradient(180deg, #FFFFFF 0%, var(--bg-site) 100%); }
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
+        .eyebrow { color: var(--dourado); font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; margin-bottom: 16px; text-transform: uppercase; }
+        .hero h1 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); line-height: 1.2; margin-bottom: 24px; }
+        .hero h1 span { color: var(--dourado); }
+        .hero p { color: var(--texto-suave); font-size: 1.05rem; margin-bottom: 36px; }
+
+        /* ASSISTENTE DE VENDAS COMPLETO */
+        .funnel-section { padding: 90px 0; background: #FFFFFF; border-top: 1px solid var(--borda); }
+        .funnel-container { max-width: 800px; margin: 0 auto; background: var(--bg-site); border: 1px solid var(--borda); border-radius: 12px; overflow: hidden; box-shadow: 0 15px 40px rgba(9, 21, 36, 0.04); }
+        
+        .tab-menu { display: flex; background: var(--azul-profundo); }
+        .tab-btn { flex: 1; padding: 18px; background: transparent; border: none; color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; cursor: pointer; text-align: center; }
+        .tab-btn.active { color: var(--dourado); background: rgba(255,255,255,0.03); border-bottom: 3px solid var(--dourado); }
+        
+        .tab-content { padding: 34px; display: none; background: #FFFFFF; min-height: 260px; flex-direction: column; justify-content: center; }
+        .tab-content.active { display: flex; }
+        .tab-content h3 { font-size: 1.4rem; margin-bottom: 12px; font-weight: 700; }
+        .tab-content p { color: var(--texto-suave); font-size: 0.95rem; margin-bottom: 24px; }
+        
+        .btn-action {
+            background: var(--whatsapp); color: white; padding: 14px 28px; border: none;
+            border-radius: 4px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; cursor: pointer; transition: 0.3s; width: fit-content;
+        }
+        .btn-action:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+
+        .painel-vitrine { background: var(--bg-card); border: 1px solid var(--borda); border-radius: 8px; padding: 24px; }
+        .painel-vitrine img { width: 100%; border-radius: 4px; margin-bottom: 20px; height: 260px; object-fit: cover; }
+        .vitrine-footer { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--texto-suave); }
+        .vitrine-footer strong { color: var(--azul-profundo); display: block; font-size: 1.05rem; }
+
+        .wp-float { position: fixed; bottom: 24px; right: 24px; z-index: 1000; background: var(--whatsapp); width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+
+        footer { background: var(--azul-profundo); padding: 50px 0; color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+        footer h3 { color: #FFFFFF; margin-bottom: 10px; }
+        .footer-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+
+        @media (max-width: 768px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+            .tab-menu { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="wrap">
+            <div class="logo">ÓTICA <span>VISÃO</span> CLARA</div>
+            <a href="https://wa.me/5584987078688" target="_blank" class="btn-header">Falar com Consultor</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="wrap">
+            <div class="hero-grid">
+                <div>
+                    <div class="eyebrow">// O Preço Mais Barato do RN</div>
+                    <h1>Armações exclusivas e a precisão visual que você <span>procura</span>.</h1>
+                    <p>Referência em lentes personalizadas e atendimento humanizado. Utilize o nosso assistente interativo abaixo para escolher a melhor forma de atendimento para você.</p>
+                    <a href="#escolha-atendimento" class="btn-action" style="background: var(--azul-profundo);">Ir para o Assistente</a>
+                </div>
+
+                <div class="painel-vitrine">
+                    <img src="https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&q=80" alt="Óculos de grau premium e lentes de precisão">
+                    <div class="vitrine-footer">
+                        <div>DIFERENCIAL MODELO<br><strong>Exame de Vista Social Integrado</strong></div>
+                        <div style="text-align: right;">CENTRAL DE VENDAS<br><strong>(84) 98707-8688</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASSISTENTE DE VENDAS INTERATIVO -->
+    <section class="funnel-section" id="escolha-atendimento">
+        <div class="wrap">
+            <div style="text-align: center; margin-bottom: 44px;">
+                <h2 style="font-size: 2rem; margin-bottom: 12px;">Assistente de Vendas Direto</h2>
+                <p style="color: var(--texto-suave); font-size: 1rem; max-width: 550px; margin: 0 auto;">Como você prefere dar início ao atendimento na Ótica Visão Clara? Escolha o formato ideal abaixo.</p>
+            </div>
+
+            <div class="funnel-container">
+                <div class="tab-menu">
+                    <button class="tab-btn active" onclick="abrirAba(event, 'aba-orcamento')">📑 Orçamento de Receita</button>
+                    <button class="tab-btn" onclick="abrirAba(event, 'aba-exame')">👁 Agendar Exame</button>
+                    <button class="tab-btn" onclick="abrirAba(event, 'aba-catalogo')">👓 Ver Modelos</button>
+                </div>
+
+                <div id="aba-orcamento" class="tab-content active">
+                    <h3>Orçamento Rápido via WhatsApp</h3>
+                    <p>Envie uma foto da sua receita de óculos atualizada. Nossa equipe calcula as melhores opções de lentes com o menor preço garantido do RN.</p>
+                    <button class="btn-action" onclick="registrarEEnviar('Orçamento de Receita', 'Gostaria de enviar minha receita para um orçamento rápido de lentes.')">Enviar Minha Receita</button>
+                </div>
+
+                <div id="aba-exame" class="tab-content">
+                    <h3>Agendamento de Exame de Vista</h3>
+                    <p>Precisa passar por uma nova avaliação ou renovar o grau? Agende seu exame de vista social diretamente conosco com total facilidade e horários flexíveis.</p>
+                    <button class="btn-action" onclick="registrarEEnviar('Agendamento de Exame', 'Quero verificar a tabela de horários para agendar um exame de vista social.')">Marcar Meu Exame</button>
+                </div>
+
+                <div id="aba-catalogo" class="tab-content">
+                    <h3>Catálogo Digital e Consultoria</h3>
+                    <p>Fale com um consultor especialista em visagismo para te ajudar a escolher o formato de armação ideal para o seu rosto e estilo pessoal.</p>
+                    <button class="btn-action" onclick="registrarEEnviar('Visualizar Catálogo', 'Gostaria de ver os modelos de armações disponíveis e falar com o consultor de estilo.')">Ver Modelos Disponíveis</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://wa.me/5584987078688" target="_blank" class="wp-float" aria-label="WhatsApp">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.5 0-3-.4-4.3-1.1l-.3-.2-3 .8.8-2.9-.2-.3C4.4 15 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+    </a>
+
+    <footer>
+        <div class="wrap">
+            <div class="footer-grid">
+                <div>
+                    <h3>ÓTICA VISÃO CLARA</h3>
+                    <p style="font-size: 0.85rem; max-width: 365px; margin-top: 10px; color: rgba(255,255,255,0.5);">Tecnologia óptica de precisão, garantia de adaptação e o menor preço de todo o Rio Grande do Norte.</p>
+                </div>
+                <div style="line-height: 1.8;" class="vitrine-footer">
+                    <span style="color: #FFFFFF;">Atendimento ao Cliente:</span><br>
+                    Suporte Digital para todo o Estado do RN<br>
+                    <strong>WhatsApp Central:</strong> (84) 98707-8688
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- CREDENCIAIS DE SEGURANÇA DO SUPABASE ---
+        const SUPABASE_URL = "SUA_PROJECT_URL_AQUI"; 
+        const SUPABASE_ANON_KEY = "SUA_ANON_KEY_AQUI"; 
+
+        // Inicializa o cliente Supabase de forma segura
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const WHATSAPP_LINK_CENTRAL = "https://wa.me/5584987078688?text=";
+
+        function abrirAba(evt, nomeAba) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) { tablinks[i].className = tablinks[i].className.replace(" active", ""); }
+            document.getElementById(nomeAba).style.display = "flex";
+            evt.currentTarget.className += " active";
+        }
+
+        // Função que grava os dados com segurança no Supabase e depois abre o WhatsApp
+        async function registrarEEnviar(tipo, mensagemFinal) {
+            try {
+                // Grava a ação do usuário de forma silenciosa no banco de dados
+                await supabase
+                    .from('leads_otica')
+                    .insert([{ tipo_solicitacao: tipo, mensagem: mensagemFinal }]);
+            } catch (error) {
+                console.error("Erro de log seguro:", error);
+            } finally {
+                // Independente de instabilidade de internet, o cliente sempre é direcionado ao WhatsApp
+                const textoFormatado = encodeURIComponent(`Olá Ótica Visão Clara! Usei o assistente do site: ${mensagemFinal}`);
+                window.open(WHATSAPP_LINK_CENTRAL + textoFormatado, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
